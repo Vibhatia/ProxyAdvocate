@@ -60,16 +60,23 @@ const Inputs = styled.div`
 `;
 const Otp = () => {
     const navigate = useNavigate();
-    const [result,setResult] = useState('');
-    const {setUpRecaptha} = useUserAuth();
+  
+    const [otpGenerated,setOtpGenerated] = useState(false);
+    const [error,setError] = useState('');
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const name = searchParams.get('name');
     const email = searchParams.get('email');
     const phone = searchParams.get('phone');
+  
     
     useEffect(() => {
+    const otpGeneratedInLocalStorage = localStorage.getItem('otpGenerated');
+    if (otpGeneratedInLocalStorage === 'true') {
+      setOtpGenerated(true);
+      return;
+    }
       configureCatcha();
     const phoneNumber = "+91"+phone;
     console.log(phoneNumber);
@@ -79,10 +86,13 @@ const Otp = () => {
        
         window.confirmationResult = confirmationResult;
         console.log("OTP has been sent!!!");
+        localStorage.setItem('otpGenerated', 'true');
+        setOtpGenerated(true);
       }).catch((error) => {
         
         console.log(error);
       });
+
       },[phone]);
   
     
@@ -127,17 +137,18 @@ const Otp = () => {
     }, auth);
   } 
   const onSubmitOTP=(e)=>{
+
     const code = otp.join("");
-    console.log(code);
   window.confirmationResult.confirm(code).then((result) => {
-  
+  // User signed in successfully.
   const user = result.user;
-  console.log(JSON.stringify(user));
-  alert("User is verified!!");
+  alert("Phone Number is verified");
   navigate(`/register/otp/details?name=${name}&email=${email}&phone=${phone}`)
-}).catch((error) => {
+
   
-  console.log("Please Enter valid OTP!!");
+}).catch((error) => {
+  setError("Your entered OTP is incorrect!!")
+  console.log("OTP is incorrect!!");
 });
 
   }
@@ -147,7 +158,7 @@ const Otp = () => {
         <Title>OTP VERIFICATION</Title>
         <Form onSubmit={onSignInSubmit}>
           <Content>
-            Your OTP has been sent successfully to your registered E-mail.
+            Your OTP has been sent successfully to your registered Phone Number.
           </Content>
           <Inputs>
             {otp.map((data, index) => {
@@ -164,7 +175,8 @@ const Otp = () => {
           </Inputs>
                 {/* <button onClick={onSubmitOTP}>Verify</button> */}
                 <div id="sign-in-button"></div>
-                <p>OTP entered:-{otp.join("")}</p>
+                {/* <p>OTP entered:-{otp.join("")}</p> */}
+                <p style={{color:"red"}}>{error?error:""}</p>
                 <Button onClick={onSubmitOTP}>NEXT</Button>
           
                 {/* <button type="submit">Generate</button> */}

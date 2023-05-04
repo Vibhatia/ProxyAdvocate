@@ -1,4 +1,4 @@
-import {React,useState} from 'react'
+import {React,useState,useEffect} from 'react'
 import styled from 'styled-components'
 import {Link,useNavigate} from 'react-router-dom';
 const Container = styled.div`
@@ -65,6 +65,19 @@ const Signin = () => {
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   const [phone,setPhone] = useState('');
+  const [error,setError] = useState('');
+  useEffect(()=>{
+    localStorage.setItem('otpGenerated', 'false');
+
+  },[])
+  const Navigate=(e)=>{
+    e.preventDefault();
+    if(!name || !email || !phone){
+      setError("Please fill all the required fields!!");
+      return;
+    }
+    return navigate(`/register/otp?name=${name}&email=${email}&phone=${phone}`);
+  }
   return (
     <Container>
         <Wrapper>
@@ -74,8 +87,10 @@ const Signin = () => {
                 <Input placeholder="Name" type="text" onChange={(e)=>setName(e.target.value)} value={name}/>
                 <Input placeholder="E-mail" type="email" onChange={(e)=>setEmail(e.target.value)} value={email}/>
                 <Input placeholder="Phone No." type="tel" maxLength="10" onChange={(e)=>setPhone(e.target.value)} value={phone}/>
+                <p style={{color:"red"}}>{error?error:""}</p>
+
                 </Inputs>
-                <Button onClick={()=>navigate(`/register/otp?name=${name}&email=${email}&phone=${phone}`)}>NEXT</Button>
+                <Button type="submit" onClick={Navigate}>NEXT</Button>
             </Form>
 
         </Wrapper>

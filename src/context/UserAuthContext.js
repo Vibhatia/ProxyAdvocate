@@ -11,7 +11,6 @@ const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
-
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
@@ -19,7 +18,7 @@ export function UserAuthContextProvider({ children }) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
   function logOut() {
-      setUser({});
+      // setUser({});
 
     return signOut(auth);
     

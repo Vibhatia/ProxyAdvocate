@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation,useNavigate } from 'react-router-dom';
 import { useUserAuth } from "../context/UserAuthContext";
 
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -76,6 +77,8 @@ const DropdownInputChamber = styled.select`
 
 const Details = () => {
     const location = useLocation();
+    const [error,setError] = useState('');
+
     const [password,setPassword] = useState('');
     const [confirmPassword,setConfirmPassword] = useState('');
     const [barId,setBarId] = useState('');
@@ -87,6 +90,7 @@ const Details = () => {
     const [languages,setLanguages] = useState('');
     const [expertise,setExpertise] = useState('');
     const [aadhar,setAadhar] = useState('');
+
     const navigate = useNavigate();
     const { signUp } = useUserAuth();
     const searchParams = new URLSearchParams(location.search);
@@ -150,11 +154,20 @@ const Details = () => {
   ));
   const handleFileUpload = (event) => {
     const selectedFile = event.target.files[0];
+    
     console.log(selectedFile);
   };
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try{
+      if(!name || !email || !password || !confirmPassword || !barId || !phone || !year || !state || !chamber || !courtName || !address || !languages || !expertise ||!aadhar  )
+      return setError("Please fill all the required fields!!");
+
+      if(password!==confirmPassword)
+      return setError("Your Password should match with Confirm Password!!");
+      if(password.length<8)
+      return setError("Your Password should have length at least 8 characters");
+
       const {user} = await signUp(email, password);
       
       const res = await fetch(`https://registration-36f08-default-rtdb.firebaseio.com/userdata.json`, {
@@ -190,7 +203,8 @@ const Details = () => {
     } 
     
       catch(err){
-      console.log(err);
+        setError("User already registered with this e-mail");
+      console.log(err.message);
     }
   }
   return (
@@ -201,7 +215,7 @@ const Details = () => {
           <Inputs>
             <Input placeholder="Name" type="text" value={name} disabled/>
             <Input placeholder="Phone No." type="number" value={phone} disabled/>
-            <Input placeholder="Email" type="email" value={email} />
+            <Input placeholder="Email" type="email" value={email} disabled/>
             <Input placeholder="Password" type="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
             <Input placeholder="Confirm Password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
             <Input placeholder="BAR ID Number" value={barId} onChange={(e)=>setBarId(e.target.value)}/>
@@ -212,13 +226,13 @@ const Details = () => {
 
             <InputChamber placeholder="Court Name" value={courtName} onChange={(e)=>setCourtName(e.target.value)}/>
             <Input placeholder="Office Address (if any)" value={address} onChange={(e)=>setAddress(e.target.value)}/>
-            <Input placeholder="Languages" value={languages} onChange={(e)=>setLanguages(e.target.value)}/>
-            <Input placeholder="Expertise In(e.g. Criminal)" value={expertise} onChange={(e)=>setExpertise(e.target.value)}/>
-            <Input placeholder="Aadhar No." value={aadhar} onChange={(e)=>setAadhar(e.target.value)}/>
+            <Input placeholder="Languages(e.g. Hindi,English" value={languages} onChange={(e)=>setLanguages(e.target.value)}/>
+            <Input placeholder="Expertise In(e.g. Criminal,Property)" value={expertise} onChange={(e)=>setExpertise(e.target.value)}/>
+            <Input placeholder="Aadhar No." value={aadhar} onChange={(e)=>setAadhar(e.target.value)} maxLength="14"/>
 
             <Input type='file'accept=".pdf,.doc,.docx,.txt" onChange={handleFileUpload}/>
           </Inputs>
-
+            <p style={{color:"red"}}>{error?error:""}</p>
           <Agreement>
             All the details are correct under my Knowledge Lorem ipsum dolor sit amet conmollitia.
           </Agreement>

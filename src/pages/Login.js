@@ -53,6 +53,7 @@ const Url = styled.a`
 `;
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const { logIn } = useUserAuth();
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err) {
       console.log(err);
+        setError("Invalid Credentials")
     }
   };
   return (
@@ -82,6 +84,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <p style={{color:"red"}}>{error?error:""}</p>
           <Button type="submit" onClick={handleSubmit}>
             LOGIN
           </Button>
