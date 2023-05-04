@@ -1,0 +1,62 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+.container {
+    height: calc(100vh);
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+
+  }
+  
+  .arrowContainer {
+    position: absolute;
+    width: 10%;
+    height: 8%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  
+  .wrapper {
+    width: 300vw;
+    height: 100%;
+    display: flex;
+    transition: all 1.5s ease-in-out ;
+    
+  }
+  
+  .imgContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+   
+
+  }
+  #bg1{
+    background: url("E:\ProxyAdvocate\frontend\src\assests\images\p7.jpg") no-repeat center center ;
+    background-size: 100% 100%;
+  }
+  #bg2{
+    background: url("E:\ProxyAdvocate\frontend\src\assests\images\P1.jpg") no-repeat center center ;;
+    background-size: 100% 100%;
+  }
+  #bg3{
+    background: url("E:\ProxyAdvocate\frontend\src\assests\images\bg1.jpg") no-repeat center center ;;
+    background-size: 100% 100%;
+  }
+  .content{
+    position:absolute;
+    width:500px;
+    height:100px;
+    top:150px;
+    left:80px;
+    /* margin:auto; */
+    font-size: 50px;
+    color: white;
+    font-weight: 600;
+  }
