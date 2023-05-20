@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./pages/Login";
-import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 import Otp from "./pages/Otp";
 import Details from "./pages/Details";
 import About from "./pages/About";
@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { UserAuthContextProvider ,useUserAuth } from "./context/UserAuthContext";
 import ProtectedRoute from './components/ProtectedRoute'; 
-import Dashboard from './components/Dashboard'; 
+import Dashboard from './components/Dashboard/Dashboard'; 
 
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
       <Routes>
         <Route path="/dashboard" element={<ProtectedRoute component={<Dashboard/>}></ProtectedRoute>}></Route>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Signin />} />
+        <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register/otp" element={<Otp />} />
         <Route path="/register/otp/details" element={<Details />} />

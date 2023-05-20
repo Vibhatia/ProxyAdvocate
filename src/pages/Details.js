@@ -169,8 +169,25 @@ const Details = () => {
       return setError("Your Password should have length at least 8 characters");
 
       const {user} = await signUp(email, password);
+      // await db.collection('userdata').doc(user.uid).set({
+      //   uid:user.uid,
+      //   name,
+      //   email,
+      //   password,
+      //   confirmPassword,
+      //   barId,
+      //   phone,
+      //   year,
+      //   state,
+      //   chamber,
+      //   courtName,
+      //   address,
+      //   languages,
+      //   expertise,
+      //   aadhar
+      // })
       
-      const res = await fetch(`https://registration-36f08-default-rtdb.firebaseio.com/userdata.json`, {
+      const res = await fetch(`https://registration-36f08-default-rtdb.firebaseio.com/userdata.json/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -217,7 +234,7 @@ const Details = () => {
             <Input placeholder="Phone No." type="number" value={phone} disabled/>
             <Input placeholder="Email" type="email" value={email} disabled/>
             <Input placeholder="Password" type="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-            <Input placeholder="Confirm Password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
+            <Input placeholder="Confirm Password" type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
             <Input placeholder="BAR ID Number" value={barId} onChange={(e)=>setBarId(e.target.value)}/>
             <Dropdown value={year} onChange={(e)=>setYear(e.target.value)}>{yearOptions}</Dropdown>
             <Dropdown value={state} onChange={(e)=>setState(e.target.value)}>{stateOptions}</Dropdown>

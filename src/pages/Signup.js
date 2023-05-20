@@ -60,7 +60,7 @@ max-height: 200px;
   flex-direction:column;
   margin:0px 0px 25px 0px;
 `
-const Signin = () => {
+const Signup = () => {
   const navigate = useNavigate();
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
@@ -98,4 +98,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default Signup
